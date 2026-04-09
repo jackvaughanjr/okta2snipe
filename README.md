@@ -2,23 +2,44 @@
 
 Syncs active users from an Okta (or Okta-Gov) organization into [Snipe-IT](https://snipeit.app) as license seat assignments. Users are matched by email address. Role assignments are recorded in the seat's notes field.
 
-## Requirements
+## Installation
 
-- Go 1.22+
-- Okta API token (SSWS)
-- Snipe-IT API key
+**Download a pre-built binary** (recommended) from the [latest release](https://github.com/jackvaughanjr/oktagov2snipe/releases/latest):
 
-## Setup
+```bash
+# macOS (Apple Silicon)
+curl -L https://github.com/jackvaughanjr/oktagov2snipe/releases/latest/download/oktagov2snipe-darwin-arm64 -o oktagov2snipe
+chmod +x oktagov2snipe
+
+# Linux (amd64)
+curl -L https://github.com/jackvaughanjr/oktagov2snipe/releases/latest/download/oktagov2snipe-linux-amd64 -o oktagov2snipe
+chmod +x oktagov2snipe
+
+# Linux (arm64)
+curl -L https://github.com/jackvaughanjr/oktagov2snipe/releases/latest/download/oktagov2snipe-linux-arm64 -o oktagov2snipe
+chmod +x oktagov2snipe
+```
+
+Or build from source:
 
 ```bash
 git clone https://github.com/jackvaughanjr/oktagov2snipe
 cd oktagov2snipe
-go mod tidy
 go build -o oktagov2snipe .
+```
+
+## Setup
+
+```bash
 cp settings.example.yaml settings.yaml
 ```
 
 Edit `settings.yaml` with your credentials (see [Configuration](#configuration)).
+
+## Requirements
+
+- Okta API token (SSWS) with read access to users and roles
+- Snipe-IT API key with license management permissions
 
 ## Configuration
 
