@@ -33,27 +33,30 @@ the same pattern as the other `*2snipe` integrations in this org.
 ## File Structure
 
 ```
-main.go
+main.go                          # version injection + cmd.Execute()
 cmd/
-  root.go            # CLI setup, cobra/viper init, logging, env var bindings
-  sync.go            # sync command: --dry-run, --force, --email flags; Slack notifications
-  test.go            # test command: reports active user count, role holders, license state
+  root.go                        # CLI setup, cobra/viper init, logging, env var bindings
+  sync.go                        # sync command: --dry-run, --force, --email; Slack notifications
+  test.go                        # test command: active user count, role holders, license state
 internal/
   okta/
-    client.go        # Okta REST client (see below)
+    client.go                    # Okta REST client (see below)
   slack/
-    client.go        # Slack incoming-webhook client
+    client.go                    # Slack incoming-webhook client
   snipeit/
-    client.go        # Snipe-IT API client (see below)
+    client.go                    # Snipe-IT API client (see below)
   sync/
-    syncer.go        # core sync logic
-    result.go        # Result struct
+    syncer.go                    # core sync logic
+    result.go                    # Result struct
+.github/
+  workflows/
+    release.yml                  # builds 4-platform binaries on v* tag push
 go.mod
 go.sum
 settings.example.yaml
 README.md
 CONTEXT.md
-.gitignore           # excludes: settings.yaml, okta2snipe binary, .cache/, *.log
+.gitignore                       # excludes: settings.yaml, okta2snipe binary, .cache/, .DS_Store
 ```
 
 ---
@@ -268,13 +271,47 @@ general Slack pattern — when to send, how errors are handled, dry-run suppress
 
 ---
 
+## Releases
+
+Releases are published automatically by `.github/workflows/release.yml` when a
+`v*` tag is pushed. See `CLAUDE.md` for the full workflow template and pattern.
+
+### Release assets
+
+Each release attaches four pre-built binaries:
+
+| Asset | Platform |
+|-------|----------|
+| `okta2snipe-darwin-arm64` | macOS (Apple Silicon) |
+| `okta2snipe-linux-amd64` | Linux x86-64 |
+| `okta2snipe-linux-arm64` | Linux ARM64 |
+| `okta2snipe-windows-amd64.exe` | Windows x86-64 |
+
+### Cutting a release
+
+```bash
+git tag v1.2.3
+git push origin v1.2.3
+```
+
+Or trigger manually from the Actions tab with a tag input.
+
+---
+
 ## Building & Running
 
 ```bash
+# From a release binary
+curl -L https://github.com/jackvaughanjr/okta2snipe/releases/latest/download/okta2snipe-darwin-arm64 -o okta2snipe
+chmod +x okta2snipe
+
+# From source
 git clone https://github.com/jackvaughanjr/okta2snipe
 cd okta2snipe
-go mod tidy
 go build -o okta2snipe .
+
+# Check version
+./okta2snipe --version
 
 # Validate connections
 ./okta2snipe test
