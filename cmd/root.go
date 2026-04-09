@@ -20,6 +20,11 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+// SetVersion injects the build-time version string into the root command.
+func SetVersion(v string) {
+	rootCmd.Version = v
+}
+
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
