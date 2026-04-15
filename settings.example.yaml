@@ -10,8 +10,8 @@
 
 okta:
   # Base URL of your Okta organization.
-  # Use *.okta-gov.com for Okta-Gov, *.okta.com for commercial.
-  url: "https://your-org.okta-gov.com"
+  # Use *.okta.com for commercial, *.okta-gov.com for Okta-Gov.
+  url: "https://your-org.okta.com"
 
   # Okta API token with read access to users and roles (SSWS auth).
   # Generate one at: Admin → Security → API → Tokens
