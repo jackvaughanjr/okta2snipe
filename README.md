@@ -172,6 +172,7 @@ Empty string if the user has no roles.
 
 | Version | Key changes |
 |---------|-------------|
+| v1.1.1 | Fixed seat assignment tracking — seats were re-checked-out on every run due to incorrect JSON field tag |
 | v1.1.0 | Added `--no-slack` flag to suppress Slack notifications for a single run |
 | v1.0.1 | Documentation updates for release workflow and CLAUDE.md |
 | v1.0.0 | Initial build — sync Okta Gov users into Snipe-IT license seats; release workflow; Slack notifications |
